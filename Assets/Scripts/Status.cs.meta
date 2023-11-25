@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: 7495febcc589e466cb7e3241206b7d31
+guid: a707d406a7b8249d892bbe500f370550
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - audioClipTakeOutWeapon: {fileID: 8300000, guid: 1de0b747143114a71b61fc4b82c3153a,
-      type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

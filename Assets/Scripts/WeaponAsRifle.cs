@@ -12,10 +12,10 @@ public class WeaponAsRifle : MonoBehaviour
 
     private AudioSource     audioSource;                // 사운드 재생 컴포넌트
 
-    // private void Awake() 
-    // {
-    //     audioSource = GetComponent<AudioSource>();
-    // }
+    private void Awake() 
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     private void OnEnable() 
     {
         //무기 장착 사운드 재생
