@@ -18,4 +18,9 @@ public class PlayerAnimatorController : MonoBehaviour
         set => animator.SetFloat("movementSpeed", value);
         get => animator.GetFloat("movementSpeed");
     }
+
+    public void Play(string stateName, int layer, float normalizedTime)
+    {
+        animator.Play(stateName, layer, normalizedTime);
+    }
 }

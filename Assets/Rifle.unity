@@ -462,6 +462,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1915c12bcb64d899e90f88a3c455a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioClipTakeOutWeapon: {fileID: 0}
+  weaponSetting:
+    attackRate: 0.1
+    attackDistance: 30
+    isAutomaticAttack: 1
 --- !u!95 &647571021
 Animator:
   serializedVersion: 5
