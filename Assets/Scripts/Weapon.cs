@@ -5,9 +5,15 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
    
+    [Header("Fire Effects")]
+    [SerializeField]
+    private GameObject      muzzleFlashEffect;          //총구 이펙트
     [Header("Audio Clips")]
     [SerializeField]
     private AudioClip       audioClipTakeOutWeapon;     //무기 장착 사운드
+
+    [SerializeField]
+    private AudioClip       audioClipFire;              //공격 사운드
 
     [Header("Weapon Setting")]
     [SerializeField]
@@ -28,6 +34,7 @@ public class Weapon : MonoBehaviour
     {
         //무기 장착 사운드 재생
         PlaySound(audioClipTakeOutWeapon);
+        muzzleFlashEffect.SetActive(false);
     }
 
     public void StartWeaponAction(int type =0)
@@ -82,7 +89,20 @@ public class Weapon : MonoBehaviour
 
             //무기 애니메이션 재생
             animator.Play("Fire", -1, 0);
+            //총구 이펙트 재생
+            StartCoroutine("OnMuzzleFlashEffect");
+            //공격 사운드 재생
+            PlaySound(audioClipFire);
         }
+    }
+
+    private IEnumerator OnMuzzleFlashEffect()
+    {
+        muzzleFlashEffect.SetActive(true);
+
+        yield return new WaitForSeconds(weaponSetting.attackRate * 0.3f);
+
+        muzzleFlashEffect.SetActive(false);
     }
 
     private void PlaySound(AudioClip clip)
