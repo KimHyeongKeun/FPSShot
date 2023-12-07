@@ -4,7 +4,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
+    [Header("Input KeyCodes")]
+    [SerializeField]
+    private KeyCode     keyCodeRun = KeyCode.LeftShift;
+
+    [Header("Audio Clips")]
+    [SerializeField]
+    private AudioClip audioClipWalk;
+    [SerializeField]
+    private AudioClip audioClipRun;
+
     private RotateToMouse rotateToMouse; // 마우스 이동으로 카메라 회전
+    private MovementCharacterController movement;       //키보드 입력으로 플레이어 이동, 점프
+    private Status    status;            //이동속도 등 플레이어 정보
+    private PlayerAnimatorController animator;  //애니메이션 재생 제어
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -13,11 +28,17 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState       = CursorLockMode.Locked;
 
         rotateToMouse          = GetComponent<RotateToMouse>();
+        movement               = GetComponent<MovementCharacterController>();
+        status                 = GetComponent<Status>();
+        animator               = GetComponent<PlayerAnimatorController>();
+        audioSource            = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
         UpdateRotate();
+        UpdateMove();
+
     }
 
     private void UpdateRotate()
@@ -25,6 +46,46 @@ public class PlayerController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
+
         rotateToMouse.UpdateRotate(mouseX, mouseY);
+    }
+
+    private void UpdateMove()
+    {
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+        if(x!=0 || x!=0)
+        {
+            bool isRun = false;
+
+            //옆이나 뒤로 이동할 때는 달릴 수 없다.
+            if(z>0)
+            isRun = Input.GetKey(keyCodeRun);
+
+            movement.MoveSpeed = isRun == true ? status.RunSpeed : status.WalkSpeed;
+            animator.MoveSpeed = isRun == true ? 1: 0.5f;
+            audioSource.clip   = isRun == true ? audioClipRun : audioClipWalk;
+
+            if(audioSource.isPlaying == false) {
+                {
+                    audioSource.loop = true;
+                    audioSource.Play();
+                }
+            }
+        }
+
+        //제자리에 멈춰있을 때
+        else
+        {
+            movement.MoveSpeed = 0;
+            animator.MoveSpeed = 0;
+
+            if(audioSource.isPlaying == true)
+            {
+                audioSource.Stop();
+            }
+        }
+        movement.MoveTo(new Vector3(x,0,z));
     }
 }
