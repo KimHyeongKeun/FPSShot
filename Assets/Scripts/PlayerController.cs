@@ -53,9 +53,9 @@ public class PlayerController : MonoBehaviour
     private void UpdateMove()
     {
         float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float z = Input.GetAxisRaw("Vertical");
 
-        if(x!=0 || x!=0)
+        if(x!=0 || z!=0)
         {
             bool isRun = false;
 
