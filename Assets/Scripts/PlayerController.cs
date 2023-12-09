@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     [Header("Input KeyCodes")]
     [SerializeField]
     private KeyCode     keyCodeRun = KeyCode.LeftShift;
+    [SerializeField]
+    private KeyCode     keyCodeJump = KeyCode.Space;
 
     [Header("Audio Clips")]
     [SerializeField]
@@ -20,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private Status    status;            //이동속도 등 플레이어 정보
     private PlayerAnimatorController animator;  //애니메이션 재생 제어
     private AudioSource audioSource;
-
+    private Weapon weapon;  //무기를 이용한 공격 제어
     private void Awake()
     {
         // 마우스 커서를 보이지 않게 설정하고, 현재 위치에 고정시킨다.
@@ -32,12 +34,15 @@ public class PlayerController : MonoBehaviour
         status                 = GetComponent<Status>();
         animator               = GetComponent<PlayerAnimatorController>();
         audioSource            = GetComponent<AudioSource>();
+        weapon                 = GetComponentInChildren<Weapon>();
     }
 
     private void Update()
     {
         UpdateRotate();
         UpdateMove();
+        UpdateJump();
+        UpdateweaponAction();
 
     }
 
@@ -87,5 +92,25 @@ public class PlayerController : MonoBehaviour
             }
         }
         movement.MoveTo(new Vector3(x,0,z));
+    }
+
+    private void UpdateJump()
+    {
+        if(Input.GetKeyDown(keyCodeJump))
+        {
+            movement.Jump();
+        }
+    }
+
+    private void UpdateweaponAction()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            weapon.StartWeaponAction();
+        }
+        else if(Input.GetMouseButtonUp(0))
+        {
+            weapon.StopWeaponAction();
+        }
     }
 }
