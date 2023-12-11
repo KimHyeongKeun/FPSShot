@@ -7,7 +7,7 @@ public class Casing : MonoBehaviour
     [SerializeField]
     private float deactivateTime = 5.0f;
     [SerializeField]
-    private float casingSpin = 5.0f;
+    private float casingSpin = 1.0f;
     [SerializeField]
     private AudioClip[] audioClips;
 

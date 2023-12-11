@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MemoryPool : MonoBehaviour
+public class MemoryPool 
 {
     private class PoolItem
     {
@@ -50,8 +50,8 @@ public class MemoryPool : MonoBehaviour
 
     public void DestroyObjects()
     {
-        if(poolItemList == null)
-        return;
+        if(poolItemList == null)         return;
+
 
         int count = poolItemList.Count;
         for(int i=0; i<count; ++i) {
@@ -109,7 +109,7 @@ public class MemoryPool : MonoBehaviour
         }
     }
 
-    public void DeactivateAllItems()
+    public void DeactivateAllPoolItems()
     {
         if(poolItemList == null) return;
 

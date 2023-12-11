@@ -9,6 +9,10 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private GameObject      muzzleFlashEffect;          //총구 이팩트
 
+    [Header("Spawn Points")]
+    [SerializeField]
+    private Transform       casingSpawnPoint;           //탄피 생성 위치
+
     [Header("Audio Clips")]
     [SerializeField]
     private AudioClip       audioClipTakeOutWeapon;     //무기 장착 사운드
@@ -24,11 +28,13 @@ public class Weapon : MonoBehaviour
 
     private AudioSource     audioSource;                // 사운드 재생 컴포넌트
     private PlayerAnimatorController animator;          //애니메이션 재생 제어
+    private CasingMemoryPool casingMemoryPool;          //탄피 생성 후 활성/비활성 관리
 
     private void Awake() 
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponentInParent<PlayerAnimatorController>();
+        casingMemoryPool = GetComponent<CasingMemoryPool>();
     }
 
     private void OnEnable() 
@@ -90,6 +96,7 @@ public class Weapon : MonoBehaviour
 
             StartCoroutine("OnMuzzleFlashEffect");
             PlaySound(audioClipFire);
+            casingMemoryPool.SpawnCasing(casingSpawnPoint.position, transform.right);
         }
     }
 
