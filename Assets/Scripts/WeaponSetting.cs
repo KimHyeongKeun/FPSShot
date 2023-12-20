@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WeaponName { AssualRifle = 0}
+public enum WeaponName { AssualtRifle = 0}
 
-    [System.Serializable]
+[System.Serializable]
 public struct WeaponSetting 
 {
     public WeaponName weaponName;

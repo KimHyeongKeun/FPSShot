@@ -4,7 +4,8 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> {}
+public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
+
 public class Weapon : MonoBehaviour
 {
     [HideInInspector]
