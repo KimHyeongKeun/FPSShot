@@ -5,11 +5,14 @@ using UnityEngine;
 
 [System.Serializable]
 public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
-
+[System.Serializable]
+public class MagazineEvent : UnityEngine.Events.UnityEvent<int>{ }
 public class Weapon : MonoBehaviour
 {
     [HideInInspector]
     public AmmoEvent        onAmmoEvent = new AmmoEvent();
+    [HideInInspector]
+    public MagazineEvent    onMagazineEvent = new MagazineEvent();
 
     [Header("Fire Effects")]
     [SerializeField]
@@ -39,12 +42,16 @@ public class Weapon : MonoBehaviour
     private CasingMemoryPool casingMemoryPool;          //탄피 생성 후 활성/비활성 관리
 
     public WeaponName WeaponName => weaponSetting.weaponName;
+    public int currentMagazine => weaponSetting.currentMagazine;
+    public int MaxMagazine => weaponSetting.maxMagazine;
 
     private void Awake() 
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponentInParent<PlayerAnimatorController>();
         casingMemoryPool = GetComponent<CasingMemoryPool>();
+
+        weaponSetting.currentMagazine = weaponSetting.maxMagazine;
 
         weaponSetting.currentAmmo = weaponSetting.maxAmmo;
     }
@@ -54,6 +61,8 @@ public class Weapon : MonoBehaviour
         //무기 장착 사운드 재생
         PlaySound(audioClipTakeOutWeapon);
         muzzleFlashEffect.SetActive(false);
+
+        onMagazineEvent.Invoke(weaponSetting.currentMagazine);
 
         onAmmoEvent.Invoke(weaponSetting.currentAmmo, weaponSetting.maxAmmo);
     }
@@ -92,7 +101,7 @@ public class Weapon : MonoBehaviour
     public void StartReload()
     {
         //현재 재장전 중이면 재장전 불가능
-        if(isReload == true) return;
+        if(isReload == true || weaponSetting.currentMagazine <=0) return;
 
         //무기 액션 도중에 "R"키를 눌러 재장전을 시도하면 무기 액션 종료 후 재장전
         StopWeaponAction();
@@ -161,6 +170,9 @@ public class Weapon : MonoBehaviour
             if(audioSource.isPlaying == false && animator.CurrentAnimationIs("Movement"))
             {
                 isReload = false;
+
+                weaponSetting.currentMagazine --;
+                onMagazineEvent.Invoke(weaponSetting.currentMagazine);
 
                 //현재 탄 수를 최대로 설정하고, 바뀐 . 탄 수  Text UI에 업데이트
                 weaponSetting.currentAmmo = weaponSetting.maxAmmo;
