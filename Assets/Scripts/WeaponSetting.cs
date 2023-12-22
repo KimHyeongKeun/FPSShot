@@ -8,6 +8,8 @@ public enum WeaponName { AssualtRifle = 0}
 public struct WeaponSetting 
 {
     public WeaponName weaponName;
+    public int currentMagazine;
+    public int maxMagazine;
     public int currentAmmo;     //현재 탄약 수
     public int maxAmmo;         //최대 탄약 수
     public float attackRate;    //공격 속도
