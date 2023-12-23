@@ -21,6 +21,8 @@ public class Weapon : MonoBehaviour
     [Header("Spawn Points")]
     [SerializeField]
     private Transform       casingSpawnPoint;           //탄피 생성 위치
+    [SerializeField]
+    private Transform       bulletSpawnPoint;
 
     [Header("Audio Clips")]
     [SerializeField]
@@ -40,6 +42,9 @@ public class Weapon : MonoBehaviour
     private AudioSource     audioSource;                // 사운드 재생 컴포넌트
     private PlayerAnimatorController animator;          //애니메이션 재생 제어
     private CasingMemoryPool casingMemoryPool;          //탄피 생성 후 활성/비활성 관리
+    private ImpactMemoryPool ImpactMemoryPool;
+    private Camera           mainCamera;
+
 
     public WeaponName WeaponName => weaponSetting.weaponName;
     public int currentMagazine => weaponSetting.currentMagazine;
@@ -50,9 +55,11 @@ public class Weapon : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         animator = GetComponentInParent<PlayerAnimatorController>();
         casingMemoryPool = GetComponent<CasingMemoryPool>();
+        ImpactMemoryPool = GetComponent<ImpactMemoryPool>();
+        mainCamera = Camera.main;
+
 
         weaponSetting.currentMagazine = weaponSetting.maxMagazine;
-
         weaponSetting.currentAmmo = weaponSetting.maxAmmo;
     }
 
@@ -145,6 +152,8 @@ public class Weapon : MonoBehaviour
             StartCoroutine("OnMuzzleFlashEffect");
             PlaySound(audioClipFire);
             casingMemoryPool.SpawnCasing(casingSpawnPoint.position, transform.right);
+
+            TwoStepRaycast();
         }
     }
 
@@ -183,6 +192,36 @@ public class Weapon : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private void TwoStepRaycast()
+    {
+        Ray ray;
+        RaycastHit hit;
+        Vector3 targetPoint = Vector3.zero;
+
+        //화면의 중앙 좌표 (Aim 기준으로 Raycast 연산)
+        ray = mainCamera.ViewportPointToRay(Vector2.one * 0.5f);
+        //공격 사거리(attactDistance)안에 부딪히는 오브젝트가 있으면 targetPoint는 광선에 부딪힌 위치
+        if(Physics.Raycast(ray, out hit, weaponSetting.attackDistance))
+        {
+            targetPoint = hit.point;
+        }
+        //공격 사거리 안에 부딪히는 오브젝트가 없으면 targetPoint는 최대 사거리 위치
+        else
+        {
+            targetPoint = ray.origin + ray.direction*weaponSetting.attackDistance;
+        }
+        Debug.DrawRay(ray.origin, ray.direction*weaponSetting.attackDistance, Color.red);
+
+        //첫번째 Raycast연ㅅ나으로 얻어진 targetPoint를 목표지점으로 설정하고,
+        //총구를 시작지점으로 하여 Raycast연산
+        Vector3 attackDirection = (targetPoint - bulletSpawnPoint.position).normalized;
+        if(Physics.Raycast(bulletSpawnPoint.position, attackDirection, out hit, weaponSetting.attackDistance))
+        {
+            ImpactMemoryPool.SpawnImpact(hit);
+        }
+        Debug.DrawRay(bulletSpawnPoint.position, attackDirection*weaponSetting.attackDistance, Color.blue);
     }
 
     private void PlaySound(AudioClip clip)
