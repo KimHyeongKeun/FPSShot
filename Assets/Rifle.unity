@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 80c532fdd06364c78b8d263248fb0237, type: 2}
 --- !u!1 &147056476
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad667a5e3ff5648be8997d80c59bd732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 1177236953}
   enemySpawnPointPrehab: {fileID: 2282530606130079233, guid: c95006f7ca3c345fe987525fa2cc6ecd,
     type: 3}
   enemyPrehab: {fileID: 8811520118941387261, guid: bae709be608ee4ababc1faf46cee6064,
@@ -324,7 +325,7 @@ GameObject:
   m_TagString: ImpactNormal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &408788608
 Transform:
@@ -429,7 +430,7 @@ GameObject:
   m_TagString: ImpactNormal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &499133668
 Transform:
@@ -534,7 +535,7 @@ GameObject:
   m_TagString: ImpactNormal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &557489190
 Transform:
@@ -918,7 +919,7 @@ GameObject:
   m_TagString: ImpactNormal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &923531685
 Transform:
@@ -1218,7 +1219,7 @@ GameObject:
   m_TagString: ImpactNormal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1031866435
 Transform:
@@ -2431,7 +2432,7 @@ GameObject:
   m_TagString: ImpactObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1478470859
 Transform:

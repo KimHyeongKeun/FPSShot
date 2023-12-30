@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyMemoryPool : MonoBehaviour
 {
     [SerializeField]
+    private Transform target;
+    [SerializeField]
     private GameObject enemySpawnPointPrehab;
     [SerializeField]
     private GameObject enemyPrehab;
@@ -62,6 +64,8 @@ public class EnemyMemoryPool : MonoBehaviour
 
         GameObject item = enemyMemoryPool.ActivatePoolItem();
         item.transform.position = point.transform.position;
+
+        item.GetComponent<EnemyFSM>().Setup(target);
 
         spawnPointMemoryPool.DeactivatePoolItems(point);
     }
