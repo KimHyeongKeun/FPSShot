@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum EnemyState {None =-1, Idle =0, Wander, Pursuit,}
+public enum EnemyState {None =-1, Idle =0, Wander, Pursuit, Attack, }
 
 public class EnemyFSM : MonoBehaviour
 {
@@ -14,7 +14,19 @@ public class EnemyFSM : MonoBehaviour
     [SerializeField]
     private float pursuitLimitRange =10;
 
+
+    [Header("Attack")]
+    [SerializeField]
+    private GameObject projectilePrehab;
+    [SerializeField]
+    private Transform projectileSpawnPoint;
+    [SerializeField]
+    private float attackRange =5;
+    [SerializeField]
+    private float attackRate =1;
+
     private EnemyState enemyState = EnemyState.None; //현재 적  행동
+    private float lastAttackTime =0;
 
     private Status status;  //이동속도 등의 정보
     private NavMeshAgent navMeshAgent; //이동 제어를 위한 NavMeshAgent
@@ -174,6 +186,28 @@ public class EnemyFSM : MonoBehaviour
         }
     }
 
+    private IEnumerator Attack()
+    {
+        navMeshAgent.ResetPath();
+
+        while(true)
+        {
+            LookRotationToTarget();
+
+            CalculateDistanceToTargetAndSelectState();
+
+            if(Time.time - lastAttackTime > attackRate)
+            {
+                lastAttackTime = Time.time;
+
+                GameObject clone = Instantiate(projectilePrehab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+                clone.GetComponent<EnemyProjectile>().Setup(target.position);
+            }
+
+            yield return null;
+        }
+    }
+
     private void LookRotationToTarget()
     {
         //목표 위치
@@ -193,7 +227,11 @@ public class EnemyFSM : MonoBehaviour
         return;
 
         float distance = Vector3.Distance(target.position, transform.position);
-        if(distance <= targetRecognitionRange)
+
+        if(distance <= attackRange){
+            ChangeState(EnemyState.Attack);
+        }
+        else if(distance <= targetRecognitionRange)
         {
             ChangeState(EnemyState.Pursuit);
         }
@@ -216,6 +254,10 @@ public class EnemyFSM : MonoBehaviour
         //추적 범위
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, pursuitLimitRange);
+
+        //공격 범위
+        Gizmos.color = new Color(0.39f, 0.04f, 0.04f);
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
 
