@@ -188,6 +188,7 @@ public class EnemyFSM : MonoBehaviour
 
     private IEnumerator Attack()
     {
+        //공격할 때는 이동을 멈추도록 설정
         navMeshAgent.ResetPath();
 
         while(true)

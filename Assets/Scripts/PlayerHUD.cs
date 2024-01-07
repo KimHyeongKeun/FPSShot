@@ -98,14 +98,14 @@ public class PlayerHUD : MonoBehaviour
     {
         textHP.text = "HP" + current;
 
-        if(previous - current >0)
+        if(previous - current >=0)
         {
             StopCoroutine("OnBloodScreen");
             StartCoroutine("OnBloodScreen");
         }
     }
 
-    private IEnumerator onBloodScreen()
+    private IEnumerator OnBloodScreen()
     {
         float percent = 0;
 
