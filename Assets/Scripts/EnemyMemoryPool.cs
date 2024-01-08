@@ -65,9 +65,14 @@ public class EnemyMemoryPool : MonoBehaviour
         GameObject item = enemyMemoryPool.ActivatePoolItem();
         item.transform.position = point.transform.position;
 
-        item.GetComponent<EnemyFSM>().Setup(target);
+        item.GetComponent<EnemyFSM>().Setup(target, this);
 
         spawnPointMemoryPool.DeactivatePoolItems(point);
+    }
+
+    public void DeactivateEnemy(GameObject enemy)
+    {
+        enemyMemoryPool.DeactivatePoolItems(enemy);
     }
 
 

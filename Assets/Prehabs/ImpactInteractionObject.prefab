@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3911961023042742500}
   - component: {fileID: -2038838381226509313}
   m_Layer: 0
-  m_Name: ImpactNormal
-  m_TagString: ImpactNormal
+  m_Name: ImpactInteractionObject
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -170,7 +170,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -981,7 +981,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 50
+        scalar: 20
         minScalar: 30
         maxCurve:
           serializedVersion: 2

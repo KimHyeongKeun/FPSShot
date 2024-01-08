@@ -31,12 +31,14 @@ public class EnemyFSM : MonoBehaviour
     private Status status;  //이동속도 등의 정보
     private NavMeshAgent navMeshAgent; //이동 제어를 위한 NavMeshAgent
     private Transform target;
+    private EnemyMemoryPool enemyMemoryPool;
 
-    public void Setup(Transform target)
+    public void Setup(Transform target, EnemyMemoryPool enemyMemoryPool)
     {
         status = GetComponent<Status>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         this.target = target;
+        this.enemyMemoryPool = enemyMemoryPool;
 
         //NavMeshAgent 컴포넌트에서 회전을 업데이트하지 않도록 설정
         navMeshAgent.updateRotation = false;
@@ -259,6 +261,16 @@ public class EnemyFSM : MonoBehaviour
         //공격 범위
         Gizmos.color = new Color(0.39f, 0.04f, 0.04f);
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        bool isDie = status.DecreaseHP(damage);
+
+        if(isDie == true)
+        {
+            enemyMemoryPool.DeactivateEnemy(gameObject);
+        }
     }
 
 
