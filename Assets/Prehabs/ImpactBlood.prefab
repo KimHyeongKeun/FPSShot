@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3911961023042742500}
   - component: {fileID: -2038838381226509313}
   m_Layer: 0
-  m_Name: ImpactNormal
-  m_TagString: ImpactNormal
+  m_Name: ImpactBlood
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -224,7 +224,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 2
       minColor: {r: 0, g: 0, b: 0, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

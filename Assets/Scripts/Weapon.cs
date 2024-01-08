@@ -42,7 +42,7 @@ public class Weapon : MonoBehaviour
     private AudioSource     audioSource;                // 사운드 재생 컴포넌트
     private PlayerAnimatorController animator;          //애니메이션 재생 제어
     private CasingMemoryPool casingMemoryPool;          //탄피 생성 후 활성/비활성 관리
-    private ImpactMemoryPool ImpactMemoryPool;
+    private ImpactMemoryPool impactMemoryPool;
     private Camera           mainCamera;
 
 
@@ -55,7 +55,7 @@ public class Weapon : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         animator = GetComponentInParent<PlayerAnimatorController>();
         casingMemoryPool = GetComponent<CasingMemoryPool>();
-        ImpactMemoryPool = GetComponent<ImpactMemoryPool>();
+        impactMemoryPool = GetComponent<ImpactMemoryPool>();
         mainCamera = Camera.main;
 
 
@@ -219,7 +219,12 @@ public class Weapon : MonoBehaviour
         Vector3 attackDirection = (targetPoint - bulletSpawnPoint.position).normalized;
         if(Physics.Raycast(bulletSpawnPoint.position, attackDirection, out hit, weaponSetting.attackDistance))
         {
-            ImpactMemoryPool.SpawnImpact(hit);
+            impactMemoryPool.SpawnImpact(hit);
+
+            if(hit.transform.CompareTag("ImpactEnemy"))
+            {
+                hit.transform.GetComponent<EnemyFSM>().TakeDamage(weaponSetting.damage);
+            }
         }
         Debug.DrawRay(bulletSpawnPoint.position, attackDirection*weaponSetting.attackDistance, Color.blue);
     }
