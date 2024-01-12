@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 [System.Serializable]
 public class AmmoEvent : UnityEngine.Events.UnityEvent<int, int> { }
 [System.Serializable]
 public class MagazineEvent : UnityEngine.Events.UnityEvent<int>{ }
+
 public class Weapon : MonoBehaviour
 {
     [HideInInspector]
@@ -224,6 +226,10 @@ public class Weapon : MonoBehaviour
             if(hit.transform.CompareTag("ImpactEnemy"))
             {
                 hit.transform.GetComponent<EnemyFSM>().TakeDamage(weaponSetting.damage);
+            }
+            else if(hit.transform.CompareTag("InteractionObject"))
+            {
+                hit.transform.GetComponent<InteractionObject>().TakeDamage(weaponSetting.damage);
             }
         }
         Debug.DrawRay(bulletSpawnPoint.position, attackDirection*weaponSetting.attackDistance, Color.blue);
